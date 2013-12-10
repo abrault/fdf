@@ -10,25 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "head.h"
+#include "libft.h"
 
-/* Permet la creation de la couleur */
-GC	Color(char *code)
-{
-	GC		color;
-	XColor		color_col;
-	Colormap	colormap;
-
-	colormap = DefaultColormap(dis, 0);
-	color = XCreateGC(dis, win, 0, 0);
-	XParseColor(dis, colormap, code, &color_col);
-	XAllocColor(dis, colormap, &color_col);
-	XSetForeground(dis, color, color_col.pixel);
-	return (color);
-}
-
-void	BuildAllSegment(int tab[12][19])
+void	BuildAllSegment(int tab[12][19], Display *dis, Window win)
 {
 	int		x;
 	int		y;
@@ -44,25 +28,25 @@ void	BuildAllSegment(int tab[12][19])
 			if ((tab[y][x] > 0 || tab[y + 1][x] > 0 ||
 			tab[y][x + 1] > 0 || (tab[y + 1][x] < tab[y][x]))
 			&& y < 11)
-				XDrawLine(dis, win, Color("#FF0000"),
-				(x + 10) * 25 - (q * 20), (y + 2) * 25 -
-				tab[y][x] * 2, (x + 10 + 1) * 25 - (q * 20),
-				(y + 2) * 25 - tab[y][x + 1] * 2);
+				XDrawLine(dis, win, mlx_getColor(dis, win,
+				"#FF0000"),(x + 10) * 25 - (q * 20), (y + 2)
+				* 25 - tab[y][x] * 2, (x + 10 + 1) * 25 -
+				(q * 20), (y + 2) * 25 - tab[y][x + 1] * 2);
 			else if (x < 18)
-				XDrawLine(dis, win, Color("#FEFEFE"),
-				(x + 10) * 25 - (q * 20), (y + 2) * 25 -
-				tab[y][x] * 2, (x + 10 + 1) * 25 - (q * 20),
-				(y + 2) * 25 - tab[y][x + 1] * 2);
+				XDrawLine(dis, win, mlx_getColor(dis, win,
+				"#FEFEFE"),(x + 10) * 25 - (q * 20), (y + 2)
+				* 25 - tab[y][x] * 2, (x + 11) * 25 -
+				(q * 20), (y + 2) * 25 - tab[y][x + 1] * 2);
 			if (y <  10 && (tab[y + 1][x] > 0 || tab[y][x] > 0))
-				XDrawLine(dis, win, Color("#FF0000"),
-				(x + 10) * 25 - (q * 20), (y + 2) * 25 -
-				tab[y][x] * 2, (x + 10) * 25 - ((q + 1) * 20),
-				(y + 2 + 1) * 25 - tab[y + 1][x] * 2);
+				XDrawLine(dis, win, mlx_getColor(dis, win,
+				"#FF0000"), (x + 10) * 25 - (q * 20), (y + 2)
+				* 25 - tab[y][x] * 2, (x + 10) * 25 - ((q + 1)
+				* 20), (y + 3) * 25 - tab[y + 1][x] * 2);
 			else if (y <  10)
-				XDrawLine(dis, win, Color("#FEFEFE"),
-				(x + 10) * 25 - (q * 20), (y + 2) * 25 -
-				tab[y][x] * 2, (x + 10) * 25 - ((q + 1) * 20),
-				(y + 2 + 1) * 25 - tab[y + 1][x] * 2);
+				XDrawLine(dis, win, mlx_getColor(dis, win,
+				"#FEFEFE"), (x + 10) * 25 - (q * 20), (y + 2)
+				* 25 - tab[y][x] * 2, (x + 10) * 25 - ((q + 1)
+				* 20), (y + 3) * 25 - tab[y + 1][x] * 2);
 			x++;
 		}
 		q++;
@@ -72,7 +56,6 @@ void	BuildAllSegment(int tab[12][19])
 
 int	main(void)
 {
-	int		s;
 	int		tab[12][19] ={
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -86,17 +69,16 @@ int	main(void)
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
-	dis = XOpenDisplay(NULL);
-	s = DefaultScreen(dis);
-	win = XCreateSimpleWindow(dis, RootWindow(dis, s), 1, 1, 750, 350, 1,
-		BlackPixel(dis, s), BlackPixel(dis, s));
-	XSelectInput(dis, win, ExposureMask | KeyPressMask);
-	XMapWindow(dis, win);
+	Display		*dis;
+	Window		win;
+	XEvent		e;
+
+	mlx_CreateWindow(&dis, &win, 350, 750);
 	while (1)
 	{
 		XNextEvent(dis, &e);
 		if (e.type == Expose)
-			BuildAllSegment(tab);
+			BuildAllSegment(tab, dis, win);
 		if (e.type == KeyPress)
 		{
 			if ((int) XLookupKeysym (&e.xkey, 0) == 65307)

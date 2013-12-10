@@ -12,13 +12,11 @@
 
 NAME = fdf
 
-all:	$(NAME) comp
+all: $(NAME)
 
 $(NAME):
-	gcc -c main.c -I/usr/X11R6/include
-
-comp:
-	gcc main.o -L/usr/X11R6/lib -lX11 -o $(NAME)
+	gcc -Wall -Wextra -Werror -c main.c -I/usr/X11R6/include
+	gcc -Wall -Wextra -Werror -o fdf main.o -L/usr/X11R6/lib -lX11 -L. -lft
 
 clean:
 	rm -f main.o
@@ -26,4 +24,4 @@ clean:
 fclean:
 	rm -f $(NAME)
 
-re: clean fclean $(NAME) comp
+re: clean fclean $(NAME)
