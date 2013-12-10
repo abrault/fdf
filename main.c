@@ -28,7 +28,7 @@ GC	Color(char *code)
 	return (color);
 }
 
-void			BuildAllSegment(int tab[12][19])
+void	BuildAllSegment(int tab[12][19])
 {
 	int		x;
 	int		y;
@@ -70,7 +70,7 @@ void			BuildAllSegment(int tab[12][19])
 	}
 }
 
-int		main(void)
+int	main(void)
 {
 	int		s;
 	int		tab[12][19] ={
@@ -99,7 +99,7 @@ int		main(void)
 			BuildAllSegment(tab);
 		if (e.type == KeyPress)
 		{
-			if ((int) XLookupKeysym (&e.xkey, 0) == 35307)
+			if ((int) XLookupKeysym (&e.xkey, 0) == 65307)
 				break ;
 		}
 	}
