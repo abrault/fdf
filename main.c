@@ -82,46 +82,53 @@ int	getVal(t_list *list, int x, int y)
 	return (0);
 }
 
-void	BuildSegment(Display *dis, Window win, t_list *list)
+void	build(int val[3], int pos[2], Display *dis, Window win)
 {
 	int	x;
 	int	y;
+
+	x = pos[1];
+	y = pos[0];
+	if ((val[0] != 0 || val[1] != 0) && x > 0)
+		XDrawLine(dis, win, mlx_getColor(dis, win,
+		"#ffff00"),(x + 9) * 40 - (y * 20), (y + 2)
+		* 25 - val[1] * 3, (x + 10) * 40 -
+		(y * 20), (y + 2) * 25 - val[0] * 3);
+	else if (x > 0)
+		XDrawLine(dis, win, mlx_getColor(dis, win,
+		"#fefefe"),(x + 9) * 40 - (y * 20), (y + 2)
+		* 25, (x + 10) * 40 - (y * 20), (y + 2) * 25);
+	if (y > 0 && (val[0] != 0 || val[2] != 0))
+		XDrawLine(dis, win, mlx_getColor(dis, win,
+		"#ff0000"), (x + 10) * 40 - (y * 20), (y + 2) * 25
+		- val[0] * 3, (x + 10) * 40 - ((y - 1) * 20),
+		(y + 1) * 25 - val[2] * 3);
+	else if (y > 0)
+		XDrawLine(dis, win, mlx_getColor(dis, win,
+		"#fefefe"), (x + 10) * 40 - (y * 20), (y + 2) * 25
+		, (x + 10) * 40 - ((y - 1) * 20), (y + 1) * 25);
+}
+
+void	BuildSegment(Display *dis, Window win, t_list *list)
+{
+	int	pos[2];
 	int	val[3];
 	t_list	*ptr_list;
 
-	y = -1;
+	pos[0] = -1;
 	ptr_list = list;
 	while (list)
 	{
-		if (list->y != y)
+		if (list->y != pos[0])
 		{
-			x = 0;
-			y++;
+			pos[1] = 0;
+			pos[0]++;
 		}
-		val[0] = getVal(ptr_list, x, y);
-		val[1] = getVal(ptr_list, x - 1, y);
-		val[2] = getVal(ptr_list, x, y - 1);
-		/* HORIZONTALE */
-		if ((val[0] != 0 || val[1] != 0) && x > 0)
-			XDrawLine(dis, win, mlx_getColor(dis, win,
-			"#FFFF00"),(x + 9) * 25 - (y * 20), (y + 2)
-			* 25 - val[1] * 2, (x + 10) * 25 -
-			(y * 20), (y + 2) * 25 - val[0] * 2);
-		else if (x > 0)
-			XDrawLine(dis, win, mlx_getColor(dis, win,
-			"#FEFEFE"),(x + 9) * 25 - (y * 20), (y + 2)
-			* 25, (x + 10) * 25 - (y * 20), (y + 2) * 25);
-		/* VERTICAL */
-		if (y > 0 && (val[0] != 0 || val[2] != 0))
-			XDrawLine(dis, win, mlx_getColor(dis, win,
-			"#FF0000"), (x + 10) * 25 - (y * 20), (y + 2) * 25
-			- val[0] * 2, (x + 10) * 25 - ((y - 1) * 20),
-			(y + 1) * 25 - val[2] * 2);
-		else if (y > 0)
-			XDrawLine(dis, win, mlx_getColor(dis, win,
-			"#FEFEFE"), (x + 10) * 25 - (y * 20), (y + 2) * 25
-			, (x + 10) * 25 - ((y - 1) * 20), (y + 1) * 25);
-		x++;
+		val[0] = getVal(ptr_list, pos[1], pos[0]);
+		val[1] = getVal(ptr_list, pos[1] - 1, pos[0]);
+		val[2] = getVal(ptr_list, pos[1], pos[0] - 1);
+		build(val, pos, dis, win);
+		pos[1]++;
 		list = list->next;
 	}
 }
@@ -132,10 +139,8 @@ int	main(int argc, char **argv)
 	Window	win;
 	XEvent	e;
 	t_list	*list;
-	int	x;
 
 	argc++;
-	x = 0;
 	mlx_CreateWindow(&dis, &win, 700, 800);
 	list = getList(argv[1]);
 	while (1)
