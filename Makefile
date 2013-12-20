@@ -15,6 +15,7 @@ NAME = fdf
 all: $(NAME)
 
 $(NAME):
+	clear
 	gcc -Wall -Wextra -Werror -c main.c -I/usr/X11R6/include
 	gcc -Wall -Wextra -Werror -o fdf main.o -L/usr/X11R6/lib -lX11 -L. -lft
 

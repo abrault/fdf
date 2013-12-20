@@ -11,113 +11,144 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include "head.h"
 #include "libft.h"
 
-int		getVal(char *file, int x, int y, char *c)
+t_list	*add_element(int y, int x, char *str, t_list *list)
 {
-	int		_x;
-	int		_y;
-	int		fd;
-	char	*line;
-	char	*tok;
+	t_list	*new_list;
 
-	_y = 0;
-	x++;
-	y++;
-	fd = open(file, O_RDONLY);
-	while (_y < y)
-	{
-		_x = 0;
-		get_next_line(fd, &line);
-		tok = strtok(line, " ");
-		while (_x < x)
-		{
-			tok = strtok(NULL, " ");
-			printf(" %s |", tok);
-			if (ft_strcmp(line, "\n") == 0)
-				*c = '\n';
-			if (ft_strcmp(line, "\0") == 0)
-				*c = '\0';
-			_x++;
-		}
-		_y++;
-	}
-	close(fd);
-	return (ft_atoi(tok));
+	new_list = malloc(sizeof(t_list));
+	new_list->y = y;
+	new_list->x = x;
+	new_list->val = str;
+	if (!list)
+		new_list->next = NULL;
+	else
+		new_list->next = list;
+	return (new_list);
 }
 
-void	BuildAllSegment(char *file, Display *dis, Window win)
+t_list	*inverse_list(t_list *list)
 {
-	int		x;
-	int		y;
-	int		q;
-	int		val[3];
-	char	c;
+	t_list	*temp = NULL;
+	t_list	*ret = NULL;
 
-	c = '0';
-	y = 0;
-	q = 0;
-	while (c != '\0')
+	while (list)
 	{
-		x = 0;
-		while (1)
+		temp = list;
+		list = temp->next;
+		temp->next = ret;
+		ret = temp;
+	}
+	return (ret);
+}
+
+t_list	*getList(char *file)
+{
+	int	fd;
+	char	*line;
+	t_list	*list;
+	char	*tok;
+	int	tab[2];
+
+	list = NULL;
+	tab[1] = 0;
+	fd = open(file, O_RDONLY);
+	while (get_next_line(fd, &line))
+	{
+		tab[1] = 0;
+		tok = strtok(line, " ");
+		while (tok)
 		{
-			printf("x = %d\n", x);
-			val[0] = getVal(file, x, y, &c);
-			if (c == '\n')
-				break ;
-			val[1] = getVal(file, x + 1, y, &c);
-			val[2] = getVal(file, x, y + 1, &c);
-			if (((val[0] > 0) || (val[2] > 0) ||
-			(val[1] > 0) || (val[2] < val[0])) && y < 11)
-				XDrawLine(dis, win, mlx_getColor(dis, win,
-				"#FF0000"),(x + 10) * 25 - (q * 20), (y + 2)
-				* 25 - val[0] * 2, (x + 10 + 1) * 25 -
-				(q * 20), (y + 2) * 25 - val[1] * 2);
-			else if (x < 18)
-				XDrawLine(dis, win, mlx_getColor(dis, win,
-				"#FEFEFE"),(x + 10) * 25 - (q * 20), (y + 2)
-				* 25 - val[0] * 2, (x + 11) * 25 -
-				(q * 20), (y + 2) * 25 - val[1] * 2);
-			if (y <  10 && (val[2] > 0 || val[0] > 0))
-				XDrawLine(dis, win, mlx_getColor(dis, win,
-				"#FF0000"), (x + 10) * 25 - (q * 20), (y + 2)
-				* 25 - val[0] * 2, (x + 10) * 25 - ((q + 1)
-				* 20), (y + 3) * 25 - val[2] * 2);
-			else if (y <  10)
-				XDrawLine(dis, win, mlx_getColor(dis, win,
-				"#FEFEFE"), (x + 10) * 25 - (q * 20), (y + 2)
-				* 25 - val[0] * 2, (x + 10) * 25 - ((q + 1)
-				* 20), (y + 3) * 25 - val[2] * 2);
-			x++;
+			list = add_element(tab[0], tab[1], tok, list);
+			tok = strtok(NULL, " ");
+			tab[1]++;
 		}
-		q++;
-		y++;
+		tab[0]++;
+		list = list->next;
+	}
+	return (inverse_list(list));
+}
+
+int	getVal(t_list *list, int x, int y)
+{
+	while (list)
+	{
+		if (x == list->x && y == list->y)
+			return (ft_atoi(list->val));
+		list = list->next;
+	}
+	return (0);
+}
+
+void	BuildSegment(Display *dis, Window win, t_list *list)
+{
+	int	x;
+	int	y;
+	int	val[3];
+	t_list	*ptr_list;
+
+	y = -1;
+	ptr_list = list;
+	while (list)
+	{
+		if (list->y != y)
+		{
+			x = 0;
+			y++;
+		}
+		val[0] = getVal(ptr_list, x, y);
+		val[1] = getVal(ptr_list, x - 1, y);
+		val[2] = getVal(ptr_list, x, y - 1);
+		/* HORIZONTALE */
+		if ((val[0] != 0 || val[1] != 0) && x > 0)
+			XDrawLine(dis, win, mlx_getColor(dis, win,
+			"#FFFF00"),(x + 9) * 25 - (y * 20), (y + 2)
+			* 25 - val[1] * 2, (x + 10) * 25 -
+			(y * 20), (y + 2) * 25 - val[0] * 2);
+		else if (x > 0)
+			XDrawLine(dis, win, mlx_getColor(dis, win,
+			"#FEFEFE"),(x + 9) * 25 - (y * 20), (y + 2)
+			* 25, (x + 10) * 25 - (y * 20), (y + 2) * 25);
+		/* VERTICAL */
+		if (y > 0 && (val[0] != 0 || val[2] != 0))
+			XDrawLine(dis, win, mlx_getColor(dis, win,
+			"#FF0000"), (x + 10) * 25 - (y * 20), (y + 2) * 25
+			- val[0] * 2, (x + 10) * 25 - ((y - 1) * 20),
+			(y + 1) * 25 - val[2] * 2);
+		else if (y > 0)
+			XDrawLine(dis, win, mlx_getColor(dis, win,
+			"#FEFEFE"), (x + 10) * 25 - (y * 20), (y + 2) * 25
+			, (x + 10) * 25 - ((y - 1) * 20), (y + 1) * 25);
+		x++;
+		list = list->next;
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	Display		*dis;
-	Window		win;
-	XEvent		e;
+	Display	*dis;
+	Window	win;
+	XEvent	e;
+	t_list	*list;
+	int	x;
 
 	argc++;
-	char		c;
-
-	c = '0';
-	mlx_CreateWindow(&dis, &win, 350, 750);
+	x = 0;
+	mlx_CreateWindow(&dis, &win, 700, 800);
+	list = getList(argv[1]);
 	while (1)
 	{
 		XNextEvent(dis, &e);
 		if (e.type == Expose)
-			BuildAllSegment(argv[1], dis, win);
+			BuildSegment(dis, win, list);
 		if (e.type == KeyPress)
 		{
-			if ((int) XLookupKeysym (&e.xkey, 0) == 65307)
+			if ((int) XLookupKeysym(&e.xkey, 0) == 65307)
 				break ;
 		}
 	}
 	XCloseDisplay(dis);
-	return 0;
+	return (0);
 }

@@ -32,18 +32,18 @@
 
 /* Fonction Generale */
 
-int			ft_atoi(const char *str);
-int			ft_strlen(const char *str);
-int			ft_isalnum(int n);
-int			ft_isalpha(int n);
-int			ft_isascii(int n);
-int			ft_isdigit(int n);
+int		ft_atoi(const char *str);
+int		ft_strlen(const char *str);
+int		ft_isalnum(int n);
+int		ft_isalpha(int n);
+int		ft_isascii(int n);
+int		ft_isdigit(int n);
 int 		ft_isprint(int n);
-int			ft_strcmp(const char *str1, const char *str2);
-int			ft_strncmp(const char *str1, const char *str2, size_t n);
-int			ft_tolower(int n);
-int			ft_toupper(int n);
-int			ft_memcmp(const void *ptr1, const void *ptr2, size_t num);
+int		ft_strcmp(const char *str1, const char *str2);
+int		ft_strncmp(const char *str1, const char *str2, size_t n);
+int		ft_tolower(int n);
+int		ft_toupper(int n);
+int		ft_memcmp(const void *ptr1, const void *ptr2, size_t num);
 
 void		ft_bzero(void *s, size_t n);
 void		*ft_memset(void *ptr, int charac, int num);
@@ -69,18 +69,18 @@ char		*ft_strstr(const char *str_1, const char *str_2);
 size_t		ft_strlcat(char *dest, const char *src, size_t n);
 
 /* Gestion des commandes entree standard */
-int			getCommand(int argc, char **argv, char **option);
+int		getCommand(int argc, char **argv, char **option);
 
 /* Fonction propre a mlx */
 
 void    	mlx_CreateWindow(Display **dis, Window *win, int h, int w);
-GC			mlx_getColor(Display *dis, Window win, char *color);
+GC		mlx_getColor(Display *dis, Window win, char *color);
 
 /* Fonction gestion de fichier */
 
-int			get_next_line(int const fd, char **line);
+int		get_next_line(int const fd, char **line);
 char		*extract_line(char **str);
 char		*re_malloc(char *buff, char *str);
-int			traitement(char **stock, char **line);
+int		traitement(char **stock, char **line);
 
 #endif
