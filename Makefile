@@ -6,23 +6,31 @@
 #    By: abrault <abrault@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/28 09:37:07 by abrault           #+#    #+#              #
-#    Updated: 2013/11/28 10:55:05 by abrault          ###   ########.fr        #
+#    Updated: 2013/12/21 14:05:38 by abrault          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 
+SRC = main.c \
+	  ft_list.c
+
+OBJ = main.o \
+	  ft_list.o
+
+FLAG = -Wall -Wextra -Werror
+
 all: $(NAME)
 
 $(NAME):
-	clear
-	gcc -Wall -Wextra -Werror -c main.c -I/usr/X11R6/include
-	gcc -Wall -Wextra -Werror -o fdf main.o -L/usr/X11R6/lib -lX11 -L. -lft
+	gcc $(FLAG) -c $(SRC) -I/usr/X11R6/include
+	gcc $(FLAG) -o fdf $(OBJ) -L/usr/X11R6/lib -lX11 -L. -lft
 
 clean:
-	rm -f main.o
+	rm -f $(OBJ)
 
 fclean:
 	rm -f $(NAME)
 
 re: clean fclean $(NAME)
+
