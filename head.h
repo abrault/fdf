@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/28 09:42:40 by abrault           #+#    #+#             */
-/*   Updated: 2013/12/21 14:07:36 by abrault          ###   ########.fr       */
+/*   Updated: 2013/12/21 15:39:47 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ struct s_list
 
 t_list					*add_element(int y, int x, char *str, t_list *list);
 t_list					*inverse_list(t_list *list);
+char					*ft_strtok(char *str, char sepa);
 
 #endif

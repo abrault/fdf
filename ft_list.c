@@ -6,16 +6,50 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/21 13:59:13 by abrault           #+#    #+#             */
-/*   Updated: 2013/12/21 14:07:49 by abrault          ###   ########.fr       */
+/*   Updated: 2013/12/21 17:55:37 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "head.h"
 
+char	*ft_strtok(char *str, char sepa)
+{
+	static char *stock = NULL;
+	char		*ptr;
+	int			i;
+
+	i = 0;
+	if (str != NULL)
+		stock = str;
+	while (stock != '\0')
+	{
+		write(1, "\n", 1);
+		write(1, stock,ft_strlen(stock));
+		write(1, "\n", 1);
+		if (i == 0 && *stock != sepa)
+		{
+			i = 1;
+			ptr = stock;
+		}
+		else if (i == 1 && *stock == sepa)
+		{
+			*stock = '\0';
+			stock += 2;
+			break ;
+		}
+		stock++;
+	}
+	if (*stock == '\0')
+		return (NULL);
+	write(1, ptr, ft_strlen(ptr));
+	sleep(1);
+	return (ptr);
+}
+
 t_list  *add_element(int y, int x, char *str, t_list *list)
 {
-	t_list  *new_list;
+	t_list		*new_list;
 
 	new_list = malloc(sizeof(t_list));
 	new_list->y = y;
@@ -30,8 +64,8 @@ t_list  *add_element(int y, int x, char *str, t_list *list)
 
 t_list  *inverse_list(t_list *list)
 {
-	t_list  *temp = NULL;
-	t_list  *ret = NULL;
+	t_list		*temp = NULL;
+	t_list		*ret = NULL;
 
 	while (list)
 	{

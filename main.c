@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/28 09:41:45 by abrault           #+#    #+#             */
-/*   Updated: 2013/12/21 14:06:36 by abrault          ###   ########.fr       */
+/*   Updated: 2013/12/21 17:53:06 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ t_list	*getList(char *file)
 	while (get_next_line(fd, &line))
 	{
 		tab[1] = 0;
-		tok = strtok(line, " ");
+		tok = ft_strtok(line, ' ');
 		while (tok)
 		{
 			list = add_element(tab[0], tab[1], tok, list);
-			tok = strtok(NULL, " ");
+			tok = ft_strtok(NULL, ' ');
 			tab[1]++;
 		}
+		write(1, "\nYOLO\n", 6);
 		tab[0]++;
 	}
 	return (inverse_list(list));
