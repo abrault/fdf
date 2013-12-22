@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   head.h                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2013/11/28 09:42:40 by abrault           #+#    #+#             */
-/*   Updated: 2013/12/22 13:13:11 by abrault          ###   ########.fr       */
+/*   Created: 2013/11/22 09:49:42 by abrault           #+#    #+#             */
+/*   Updated: 2013/11/29 14:57:20 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		HEAD_H
-# define	HEAD_H
+#include "libft.h"
 
-#include "libft/libft.h"
-
-typedef struct s_list	t_list;
-typedef struct s_data	t_data;
-
-struct					s_data
+char    *ft_strrchr(const char *str, int c_ascii)
 {
-	Display				*dis;
-	Window				win;
-};
+    int     i;
+    int     j;
 
-struct					s_list
-{
-	int					y;
-	int					x;
-	char				*val;
-	t_list				*next;
-};
-
-t_list					*add_element(int y, int x, char *str, t_list *list);
-t_list					*inverse_list(t_list *list);
-char					*ft_strtok(char *str, char sepa);
-
-#endif
+    i = 0;
+    j = 0;
+    if (str == NULL)
+        return (NULL);
+    while (str[i] != '\0')
+    {
+        if (str[i] == c_ascii)
+            j = i;
+        i++;
+    }
+	if (c_ascii == 0 && str[i] == '\0')
+		return ((char*) str + i);
+    if (j)
+        return ((char*) str + j);
+    return (NULL);
+}

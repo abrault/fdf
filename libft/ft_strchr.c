@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   head.h                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2013/11/28 09:42:40 by abrault           #+#    #+#             */
-/*   Updated: 2013/12/22 13:13:11 by abrault          ###   ########.fr       */
+/*   Created: 2013/11/22 09:11:26 by abrault           #+#    #+#             */
+/*   Updated: 2013/11/29 11:36:39 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		HEAD_H
-# define	HEAD_H
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 
-#include "libft/libft.h"
-
-typedef struct s_list	t_list;
-typedef struct s_data	t_data;
-
-struct					s_data
+char    *ft_strchr(const char *str, int c_ascii)
 {
-	Display				*dis;
-	Window				win;
-};
+    if (str == NULL)
+        return (NULL);
+	char	n;
+    int     i;
 
-struct					s_list
-{
-	int					y;
-	int					x;
-	char				*val;
-	t_list				*next;
-};
-
-t_list					*add_element(int y, int x, char *str, t_list *list);
-t_list					*inverse_list(t_list *list);
-char					*ft_strtok(char *str, char sepa);
-
-#endif
+    i = 0;
+	n = c_ascii;
+    while (str[i] != '\0')
+	{
+		if (str[i] == n)
+			return ((char*) str + i);
+        i++;
+    }
+	if (c_ascii == 0)
+		return ((char *) str + i);
+    return (NULL);
+}

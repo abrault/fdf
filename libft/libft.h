@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/22 15:17:35 by abrault           #+#    #+#             */
-/*   Updated: 2013/12/12 12:20:03 by abrault          ###   ########.fr       */
+/*   Updated: 2013/11/29 12:36:57 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <X11/Xatom.h>
 # include <X11/keysym.h>
 
-# define BUFF_SIZE 1000
+# define BUFF_SIZE 100
 # define MIN(a,b) (a < b ? a : b)
 
 /* Fonction Generale */
@@ -69,6 +69,7 @@ char		*ft_strstr(const char *str_1, const char *str_2);
 size_t		ft_strlcat(char *dest, const char *src, size_t n);
 
 /* Gestion des commandes entree standard */
+int		verifstr(int argc, char **argv, char ***option);
 int		getCommand(int argc, char **argv, char **option);
 
 /* Fonction propre a mlx */

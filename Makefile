@@ -6,7 +6,7 @@
 #    By: abrault <abrault@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/28 09:37:07 by abrault           #+#    #+#              #
-#    Updated: 2013/12/21 14:05:38 by abrault          ###   ########.fr        #
+#    Updated: 2013/12/22 13:14:37 by abrault          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,17 @@ OBJ = main.o \
 
 FLAG = -Wall -Wextra -Werror
 
+Xinc = -I/usr/X11R6/include
+
+Xlib = -L/usr/X11R6/lib -lX11
+
+lib = -L./ibft/ -lft
+
 all: $(NAME)
 
 $(NAME):
-	gcc $(FLAG) -c $(SRC) -I/usr/X11R6/include
-	gcc $(FLAG) -o fdf $(OBJ) -L/usr/X11R6/lib -lX11 -L. -lft
+	gcc $(FLAG) -c $(SRC) $(XInc)
+	gcc $(FLAG) -o fdf $(OBJ) $(Xlib) $(lib)
 
 clean:
 	rm -f $(OBJ)

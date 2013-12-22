@@ -6,18 +6,18 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/21 13:59:13 by abrault           #+#    #+#             */
-/*   Updated: 2013/12/21 17:55:37 by abrault          ###   ########.fr       */
+/*   Updated: 2013/12/22 13:12:31 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft/libft.h"
 #include "head.h"
 
 char	*ft_strtok(char *str, char sepa)
 {
-	static char *stock = NULL;
-	char		*ptr;
-	int			i;
+	static char		*stock = NULL;
+	char			*ptr;
+	int				i;
 
 	i = 0;
 	ptr = NULL;
@@ -41,9 +41,9 @@ char	*ft_strtok(char *str, char sepa)
 	return (ptr);
 }
 
-t_list  *add_element(int y, int x, char *str, t_list *list)
+t_list	*add_element(int y, int x, char *str, t_list *list)
 {
-	t_list		*new_list;
+	t_list			*new_list;
 
 	new_list = malloc(sizeof(t_list));
 	new_list->y = y;
@@ -56,11 +56,13 @@ t_list  *add_element(int y, int x, char *str, t_list *list)
 	return (new_list);
 }
 
-t_list  *inverse_list(t_list *list)
+t_list	*inverse_list(t_list *list)
 {
-	t_list		*temp = NULL;
-	t_list		*ret = NULL;
+	t_list			*temp;
+	t_list			*ret;
 
+	temp = NULL;
+	ret = NULL;
 	while (list)
 	{
 		temp = list;
