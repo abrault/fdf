@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/06 08:56:51 by abrault           #+#    #+#             */
-/*   Updated: 2013/12/06 17:35:53 by abrault          ###   ########.fr       */
+/*   Updated: 2013/12/22 13:41:43 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int		readF(char *buff, int *ret, int *end)
 int		get_next_line(int const fd, char **line)
 {
 	static char		*stock = NULL;
-	int			end;
-	int			ret;
+	int				end;
+	int				ret;
 	char			buff[BUFF_SIZE + 1];
 
 	end = 2;
@@ -95,7 +95,6 @@ int		get_next_line(int const fd, char **line)
 	}
 	if (stock == NULL && ret < BUFF_SIZE)
 		end = 0;
-	if (end == 0)
-		stock = NULL;
+	stock = (end == 0) ? NULL : stock;
 	return (end);
 }
