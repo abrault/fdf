@@ -34,7 +34,6 @@ t_list	*getList(char *file)
 			tok = ft_strtok(NULL, ' ');
 			tab[1]++;
 		}
-		write(1, "\nYOLO\n", 6);
 		tab[0]++;
 	}
 	return (inverse_list(list));

@@ -20,13 +20,11 @@ char	*ft_strtok(char *str, char sepa)
 	int			i;
 
 	i = 0;
+	ptr = NULL;
 	if (str != NULL)
-		stock = str;
-	while (stock != '\0')
+		stock = ft_strdup(str);
+	while (*stock != '\0')
 	{
-		write(1, "\n", 1);
-		write(1, stock,ft_strlen(stock));
-		write(1, "\n", 1);
 		if (i == 0 && *stock != sepa)
 		{
 			i = 1;
@@ -35,15 +33,11 @@ char	*ft_strtok(char *str, char sepa)
 		else if (i == 1 && *stock == sepa)
 		{
 			*stock = '\0';
-			stock += 2;
+			stock += 1;
 			break ;
 		}
 		stock++;
 	}
-	if (*stock == '\0')
-		return (NULL);
-	write(1, ptr, ft_strlen(ptr));
-	sleep(1);
 	return (ptr);
 }
 
