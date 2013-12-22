@@ -6,7 +6,7 @@
 #    By: abrault <abrault@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/28 09:37:07 by abrault           #+#    #+#              #
-#    Updated: 2013/12/22 13:14:37 by abrault          ###   ########.fr        #
+#    Updated: 2013/12/22 13:23:40 by abrault          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,12 @@ Xinc = -I/usr/X11R6/include
 
 Xlib = -L/usr/X11R6/lib -lX11
 
-lib = -L./ibft/ -lft
+lib = -L./libft/ -lft
 
 all: $(NAME)
 
 $(NAME):
-	gcc $(FLAG) -c $(SRC) $(XInc)
+	gcc $(FLAG) -c $(SRC) $(Xinc)
 	gcc $(FLAG) -o fdf $(OBJ) $(Xlib) $(lib)
 
 clean:
